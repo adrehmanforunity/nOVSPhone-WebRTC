@@ -1,3 +1,4 @@
+// test change
 // Global Settings
 // ===============
 const appversion = "0.3.27";
@@ -6,7 +7,6 @@ const navUserAgent = window.navigator.userAgent;  // TODO: change to Navigator.u
 const instanceID = String(Date.now());
 const localDB = window.localStorage;
 
-// Set the following to null to disable
 welcomeScreen = null;
 /**
  * Language Packs (lang/xx.json)
@@ -1947,15 +1947,10 @@ if (IceStunServerJson !== "") {
     }
 } else {
     console.log("IceStunServerJson: have no value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
-    try {
     options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = [
         { urls: "stun:stun.l.google.com:19302" },
-        { urls: "turn:webrtc.kozow.com:3478?transport=udp", "username":"1714862486", "credential":"9c0f056d5311b24dd5332ac26227cc09089b144a"}
+        { urls: "turn:stunbh.codelabs.inc:3478?transport=udp", username: "meetaxis", credential: "vV4mV6Yw" } // TURN server
     ];
-//      { urls: "turn:webrtc.kozow.com:3478?transport=udp", "username":"1714862486", "credential":"9c0f056d5311b24dd5332ac26227cc09089b144a"}
-    } catch (error) {
-        console.error("Error parsing IceStunServerJson:", error);
-    }
     console.log("IceStunServerJson: have this value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
 }
 
