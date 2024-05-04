@@ -1,4 +1,6 @@
-// test code again done now
+/**
+*/
+
 // Global Settings
 // ===============
 const appversion = "0.3.27";
@@ -7,7 +9,9 @@ const navUserAgent = window.navigator.userAgent;  // TODO: change to Navigator.u
 const instanceID = String(Date.now());
 const localDB = window.localStorage;
 
-welcomeScreen = null;
+// Set the following to null to disable
+let welcomeScreen = "<div class=\"UiWindowField\"><pre style=\"font-size: 12px\">";
+welcomeScreen=null;
 /**
  * Language Packs (lang/xx.json)
  * Note: The following should correspond to files on your server. 
@@ -1928,36 +1932,9 @@ function CreateUserAgent() {
             }
         }
     }
-
-
-
-
-//    if(IceStunServerJson != ""){
-//        options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = JSON.parse(IceStunServerJson);
-//    }
-
-
-
-if (IceStunServerJson !== "") {
-    console.log("IceStunServerJson: have some value : " + JSON.parse(IceStunServerJson));
-    try {
+    if(IceStunServerJson != ""){
         options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = JSON.parse(IceStunServerJson);
-    } catch (error) {
-        console.error("Error parsing IceStunServerJson:", error);
     }
-} else {
-    console.log("IceStunServerJson: have no value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
-    try {
-        options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = [
-            { urls: "stun:stun.l.google.com:19302" },
-            { urls: "turn:webrtc.kozow.com:3478?transport=udp", username: "meetaxis", credential: "vV4mV6Yw" } // TURN server
-        ];
-    } catch (error) {
-        console.error("Error parsing IceStunServerJson B:", error);
-    }
-    console.log("IceStunServerJson: have this value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
-}
-
 
     // Added to the contact BEFORE the '>' (permanent)
     if(RegisterContactParams && RegisterContactParams != "" && RegisterContactParams != "{}"){
