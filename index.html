@@ -55,30 +55,34 @@
 	    window.localStorage.setItem("profileUserID", "<?php echo($_SESSION['session_id']);?>");
 
             // Provision runtime options can go here.
-            var phoneOptions = {
-              	loadAlternateLang: true,
-		welcomeScreen: null,
-		profileUser: extenstionNo,
-		profileName: extenstionNo,
-		wssServer: "webrtc.kozow.com",
-		WssInTransport:1,
-		WebSocketPort: 4443,
-		ServerPath: "/ws",
-		SipUsername: extenstionNo,
-		SipPassword: "ab0000",
+        var phoneOptions = {
+            loadAlternateLang: false,
+            welcomeScreen: null,
+            profileUser: extenstionNo,
+            profileName: extenstionNo,
+            wssServer: "webrtc.kozow.com",
+            WssInTransport:1,
+            WebSocketPort: 4443,
+            ServerPath: "/ws",
+            SipUsername: extenstionNo,
+            SipPassword: "ab0000",
     		AudioOutputId: 'default',
     		VideoSrcId: 'default',
-		VideoHeight: '240',
+    		VideoHeight: '240',
     		FrameRate: '15',
-		AspectRatio: '1.33',
-		VideoOrientation: 'rotateY(180deg)',
-		AudioSrcId: 'default',
-		AutoGainControl: "1",
-		EchoCancellation: "1",
-		NoiseSuppression: "1",
-		RingOutputId:'default',
-		Notifications:"0"
-            }
+            AspectRatio: '1.33',
+            VideoOrientation: 'rotateY(180deg)',
+            AudioSrcId: 'default',
+            AutoGainControl: "1",
+            EchoCancellation: "1",
+            NoiseSuppression: "1",
+            RingOutputId:'default',
+            DisableBuddies:true,
+            VoiceMailSubscribe:false,
+            Notifications:"0"
+    }
+       //IceStunServerJson;
+        //IceStunCheckTimeout ;
 
             // Occurs after the language file is loaded
             document.addEventListener("language_pack_loaded", function(lang){
