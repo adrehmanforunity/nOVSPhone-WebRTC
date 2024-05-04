@@ -1,4 +1,4 @@
-// test change
+// test code again
 // Global Settings
 // ===============
 const appversion = "0.3.27";
@@ -1943,21 +1943,14 @@ if (IceStunServerJson !== "") {
     try {
         options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = JSON.parse(IceStunServerJson);
     } catch (error) {
-        console.error("Error parsing IceStunServerJson A:", error);
+        console.error("Error parsing IceStunServerJson:", error);
     }
 } else {
     console.log("IceStunServerJson: have no value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
-    try {
-        options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = [
-            { urls: "stun:stun.l.google.com:19302" },
-            { urls: "turn:webrtc.kozow.com:3478?transport=udp", username: "meetaxis", credential: "vV4mV6Yw" } // TURN server
-        ];
-        } catch (error) {
-            console.error("Error parsing IceStunServerJson B:", error);
-        }
-    }
-    
-
+    options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers = [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "turn:stunbh.codelabs.inc:3478?transport=udp", username: "meetaxis", credential: "vV4mV6Yw" } // TURN server
+    ];
     console.log("IceStunServerJson: have this value :" + JSON.stringify(options.sessionDescriptionHandlerFactoryOptions.peerConnectionConfiguration.iceServers));
 }
 
