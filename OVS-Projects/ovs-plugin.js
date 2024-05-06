@@ -168,6 +168,11 @@ function initializePlugin() {
         document.getElementById('callStatus').value = status;
     }
 }
+// Attach an event listener to the window's load event
+window.addEventListener('load', function() {
+    // Call initializePlugin() after the window has finished loading
+    initializePlugin();
+});
 
 // Load SIP.js script with onload attribute to call initializePlugin function
 var sipScript = document.createElement('script');
