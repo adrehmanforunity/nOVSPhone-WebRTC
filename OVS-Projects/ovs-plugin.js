@@ -6,9 +6,6 @@ var lastPosition = {
 
 // Function to initialize the plugin
 function initializePlugin() {
-    // Your plugin initialization code goes here
-    // Make sure to define all required functions and variables
-
     // Define SIP.js configuration
     const configuration = {
         uri: 'sip:3001@webrtc.kozow.com',
