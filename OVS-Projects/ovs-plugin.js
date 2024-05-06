@@ -6,11 +6,8 @@ var lastPosition = {
 
 // Function to initialize the plugin
 function initializePlugin() {
-    // Ensure SIP object is available
-    if (typeof SIP === 'undefined') {
-        console.error('SIP.js library failed to load.');
-        return;
-    }
+    // Your plugin initialization code goes here
+    // Make sure to define all required functions and variables
 
     // Define SIP.js configuration
     const configuration = {
@@ -174,3 +171,9 @@ function initializePlugin() {
         document.getElementById('callStatus').value = status;
     }
 }
+
+// Load SIP.js script with onload attribute to call initializePlugin function
+var sipScript = document.createElement('script');
+sipScript.src = "https://cdnjs.cloudflare.com/ajax/libs/sip.js/0.17.1/sip.min.js";
+sipScript.onload = initializePlugin;
+document.body.appendChild(sipScript);
