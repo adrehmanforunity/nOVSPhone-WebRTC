@@ -72,7 +72,7 @@
                     var userAgentOptions = {
                         uri: SIP.UserAgent.makeURI("sip:" + SipUsername + "@" + SipDomain),
                         transportOptions: {
-                            server: 'wss://' + SipDomain + '/ws',
+                            server: 'wss://' + SipDomain + ':4443/ws',
                             traceSip: true
                         },
                         authorizationUsername: SipUsername,
