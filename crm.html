@@ -5,68 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Banking CRM Dashboard</title>
 <style>
-  body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; }
-  .navbar { background-color: #333; overflow: hidden; }
-  .navbar a { float: left; display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; }
-  .navbar a:hover { background-color: #ddd; color: black; }
-  .container { padding: 20px; }
-  .card { background: #fff; padding: 20px; margin-top: 20px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
-  footer { background-color: #333; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+  /* Existing styles... */
   
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .navbar a { padding: 10px 15px; }
-    .card { margin-top: 15px; padding: 15px; }
+  /* New styles for iframe */
+  .iframe-container {
+    position: fixed; /* Fixed position to stay on top */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999; /* High z-index to be above other content */
+    display: none; /* Initially hidden */
   }
-  
-  @media (max-width: 480px) {
-    .navbar a { float: none; display: block; text-align: left; padding: 10px; border-bottom: 1px solid #fff; }
-    .navbar a:last-child { border-bottom: none; }
-    footer { position: relative; }
+  .iframe-container iframe {
+    width: 100%;
+    height: 100%;
   }
 </style>
+<script>
+function openContactForm() {
+  document.querySelector('.iframe-container').style.display = 'block'; // Show the iframe
+}
+function closeContactForm() {
+  document.querySelector('.iframe-container').style.display = 'none'; // Hide the iframe
+}
+</script>
 </head>
 <body>
 
-<div class="navbar">
-  <a href="#home">Home</a>
-  <a href="#accounts">Accounts</a>
-  <a href="#transactions">Transactions</a>
-  <a href="#loans">Loans</a>
-  <a href="#support">Customer Support</a>
-  <a href="#settings">Settings</a>
-</div>
-
-<div class="container">
-  <div class="card">
-    <h2>Welcome to Your Banking CRM Dashboard</h2>
-    <p>Manage accounts, view transactions, apply for loans, and connect with customer support.</p>
-  </div>
-  <!-- Account Management Section -->
-  <div class="card">
-    <h3>Account Management</h3>
-    <p>Overview of customer accounts with options to open new accounts or modify existing ones.</p>
-  </div>
-  <!-- Transaction History Section -->
-  <div class="card">
-    <h3>Transaction History</h3>
-    <p>Detailed list of all customer transactions with filtering options by date, amount, and type.</p>
-  </div>
-  <!-- Loan Application Section -->
-  <div class="card">
-    <h3>Loan Applications</h3>
-    <p>Process loan applications with status updates and document management.</p>
-  </div>
-  <!-- Customer Service Inquiries Section -->
-  <div class="card">
-    <h3>Customer Service Inquiries</h3>
-    <p>Track and respond to customer inquiries and support tickets.</p>
-  </div>
-</div>
+<!-- Existing HTML content... -->
 
 <footer>
   <p>Banking CRM Dashboard © 2024</p>
+  <!-- Contact Now hyperlink -->
+  <a href="javascript:void(0);" onclick="openContactForm()">Contact Now</a>
 </footer>
+
+<!-- Iframe container for the contact form -->
+<div class="iframe-container">
+  <iframe src="index.html?extension=3002&number=2001" frameborder="0"></iframe>
+  <!-- Close button inside the iframe container -->
+  <button onclick="closeContactForm()">Close</button>
+</div>
 
 </body>
 </html>
