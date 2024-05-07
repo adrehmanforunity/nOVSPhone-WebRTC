@@ -10,63 +10,108 @@
     <h1>SIP Web Application</h1>
     <button onclick="startSip()">Start SIP</button>
     <button onclick="endSip()">End SIP</button>
+    <button onclick="testCall()">Test Call</button>
 
     <script>
         var session;
 
         function startSip() {
-            var audioInputDevice = null; // Specify the audio input device ID here if needed
-            var audioOutputDevice = null; // Specify the audio output device ID here if needed
+            if (typeof SIP !== 'undefined' && typeof SIP.UA === 'function') {
+                var audioInputDevice = null; // Specify the audio input device ID here if needed
+                var audioOutputDevice = null; // Specify the audio output device ID here if needed
 
-            var config = {
-                wssServer: "webrtc.kozow.com",
-                WssInTransport: 1,
-                WebSocketPort: 4443,
-                ServerPath: "/ws",
-                SipUsername: "2001",
-                SipPassword: "ab0000",
-                stunServers: "stun:stun.l.google.com:19302", // Correct format for Google STUN server
-                media: {
-                    constraints: {
-                        audio: {
-                            deviceId: { exact: audioInputDevice }, // Specify the input device ID if needed
-                            echoCancellation: true, // Enable echo cancellation
-                            noiseSuppression: true, // Enable noise suppression
-                            autoGainControl: true // Enable automatic gain control
-                        },
-                        video: false
-                    },
-                    render: {
-                        remote: document.getElementById('remoteAudio'), // Specify the HTML element to render remote audio
-                        local: document.getElementById('localAudio') // Specify the HTML element to render local audio
-                    }
-                }
-            };
-
-            var userAgent = new SIP.UA(config);
-
-            userAgent.on('invite', function (incomingSession) {
-                console.log('Incoming call from: ' + incomingSession.remoteIdentity.displayName);
-                session = incomingSession;
-                session.accept({
+                var config = {
+                    wssServer: "webrtc.kozow.com",
+                    WssInTransport: 1,
+                    WebSocketPort: 4443,
+                    ServerPath: "/ws",
+                    SipUsername: "2001",
+                    SipPassword: "ab0000",
+                    stunServers: "stun:stun.l.google.com:19302", // Correct format for Google STUN server
                     media: {
                         constraints: {
-                            audio: true,
+                            audio: {
+                                deviceId: { exact: audioInputDevice }, // Specify the input device ID if needed
+                                echoCancellation: true, // Enable echo cancellation
+                                noiseSuppression: true, // Enable noise suppression
+                                autoGainControl: true // Enable automatic gain control
+                            },
                             video: false
+                        },
+                        render: {
+                            remote: document.getElementById('remoteAudio'), // Specify the HTML element to render remote audio
+                            local: document.getElementById('localAudio') // Specify the HTML element to render local audio
                         }
                     }
+                };
+
+                var userAgent = new SIP.UA(config);
+
+                userAgent.on('invite', function (incomingSession) {
+                    console.log('Incoming call from: ' + incomingSession.remoteIdentity.displayName);
+                    session = incomingSession;
+                    session.accept({
+                        media: {
+                            constraints: {
+                                audio: true,
+                                video: false
+                            }
+                        }
+                    });
                 });
-            });
 
-            userAgent.start();
+                userAgent.start();
 
-            console.log('SIP started');
+                console.log('SIP started');
+            } else {
+                console.error('SIP.js library is not loaded or not available');
+            }
         }
 
         function endSip() {
             if (session) {
                 session.terminate();
                 console.log('SIP ended');
+            }
+        }
+
+        function testCall() {
+            if (session) {
+                console.log('Already in a call, cannot make a test call');
+                return;
+            }
+
+            if (typeof SIP !== 'undefined' && typeof SIP.UA === 'function') {
+                var testConfig = {
+                    uri: '*43@webrtc.kozow.com', // Test number to call
+                    media: {
+                        constraints: {
+                            audio: true,
+                            video: false
+                        }
+                    }
+                };
+
+                var userAgent = new SIP.UA(testConfig);
+
+                userAgent.on('invite', function (incomingSession) {
+                    console.log('Incoming test call from: ' + incomingSession.remoteIdentity.displayName);
+                    session = incomingSession;
+                    session.accept({
+                        media: {
+                            constraints: {
+                                audio: true,
+                                video: false
+                            }
+                        }
+                    });
+                });
+
+                userAgent.start();
+
+                console.log('Test call started');
+            } else {
+                console.error('SIP.js library is not loaded or not available');
             }
         }
     </script>
