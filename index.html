@@ -46,15 +46,14 @@
         <script type="text/javascript">
 	    var extenstionNo;
 	    extenstionNo=GetURLParameter("extenstion");
-            if (typeof extenstionNo == 'undefined')
-	    {
-		extenstionNo='1089';	     
-            };
+        if (typeof extenstionNo == 'undefined'){
+		    extenstionNo='1089';	     
+        };
 	    console.log('extenstionNo Now:' + extenstionNo);
 
-	    window.localStorage.setItem("profileUserID", "<?php echo($_SESSION['session_id']);?>");
+	    //window.localStorage.setItem("profileUserID", "<?php echo($_SESSION['session_id']);?>");
 
-            // Provision runtime options can go here.
+        // Provision runtime options can go here.
         var phoneOptions = {
             loadAlternateLang: false,
             welcomeScreen: null,
