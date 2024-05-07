@@ -24,18 +24,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            var SipUsername = '2001';
+            var SipPassword = 'ab0000';
+            var SipDomain = 'webrtc.kozow.com';
             var audioInputSelect = document.getElementById('audioInputSelect');
             var audioOutputSelect = document.getElementById('audioOutputSelect');
             var userAgent;
             var registered = false;
 
-            // Function to request permission and populate the device selection dropdowns
             function getPermissionAndUpdateDevices() {
                 navigator.mediaDevices.getUserMedia({ audio: true, video: false })
                     .then(function(stream) {
-                        // Now that we have permission, update the device selections
                         updateDeviceSelection();
-                        // Stop all tracks to ensure no audio is playing after permission is granted
                         stream.getTracks().forEach(function(track) {
                             track.stop();
                         });
@@ -45,7 +45,6 @@
                     });
             }
 
-            // Function to populate the device selection dropdowns
             function updateDeviceSelection() {
                 navigator.mediaDevices.enumerateDevices()
                     .then(function(devices) {
@@ -68,15 +67,31 @@
 
             document.getElementById('registerButton').addEventListener('click', function () {
                 if (!userAgent) {
-                    userAgent = new SIP.UA({
-                        uri: 'sip:2001@webrtc.kozow.com',
+                    var userAgentOptions = {
+                        uri: SIP.UserAgent.makeURI("sip:" + SipUsername + "@" + SipDomain),
                         transportOptions: {
-                            wsServers: ['wss://webrtc.kozow.com/ws'],
+                            server: 'wss://' + SipDomain + '/ws',
                             traceSip: true
                         },
-                        authorizationUser: '2001',
-                        password: 'ab0000',
-                        stunServers: ['stun:stun.l.google.com:19302']
+                        authorizationUsername: SipUsername,
+                        authorizationPassword: SipPassword,
+                        sessionDescriptionHandlerFactoryOptions: {
+                            constraints: {
+                                audio: true,
+                                video: false
+                            }
+                        },
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' }
+                        ]
+                    };
+
+                    userAgent = new SIP.UserAgent(userAgentOptions);
+
+                    userAgent.start().then(() => {
+                        console.log('User agent started');
+                    }).catch(error => {
+                        console.error('Error starting user agent:', error);
                     });
 
                     userAgent.on('registered', function () {
@@ -107,7 +122,6 @@
 
             document.getElementById('callButton').addEventListener('click', function () {
                 if (userAgent && registered) {
-                    // Update the config with the selected devices before making the call
                     var options = {
                         sessionDescriptionHandlerOptions: {
                             constraints: {
