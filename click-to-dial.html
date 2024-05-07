@@ -25,13 +25,69 @@
         <!-- Provisioning -->
         <script type="text/javascript">
             // Provision runtime options can go here.
+            //var phoneOptions = {
+            //    loadAlternateLang: true,
+            //    VoiceMailSubscribe: false,
+            //    EnableTextMessaging: false,
+            //    DisableFreeDial: true,
+            //    DisableBuddies: true,
+            //    ChatEngine: "SIMPLE",
+            //}
+            var extensionNo;
+            extensionNo=GetURLParameter("extension");
+            if (typeof extensionNo == 'undefined'){
+                extensionNo='1089';	     
+            };
+            console.log('extenstionNo Now:' + extensionNo);
+            
+            // Generate a random number
+            var randomUserID = Math.floor(Math.random() * 1000000);
+            // Set the random number as the value for the profileUserID key in localStorage
+            window.localStorage.setItem("profileUserID", randomUserID);
+            console.log('profileUserID random:' + randomUserID);
+
+            // Provision runtime options can go here.
             var phoneOptions = {
-                loadAlternateLang: true,
-                VoiceMailSubscribe: false,
-                EnableTextMessaging: false,
-                DisableFreeDial: true,
-                DisableBuddies: true,
-                ChatEngine: "SIMPLE",
+                loadAlternateLang: false,
+                RingOutputId:'default',
+                AudioOutputId: 'default',
+                AudioSrcId: 'default',
+                VideoSrcId: 'default',
+                VideoHeight: '240',
+                welcomeScreen: null,
+                profileUser: extensionNo,
+                profileName: extensionNo,
+                wssServer: "webrtc.kozow.com",
+                WssInTransport:1,
+                WebSocketPort: 4443,
+                ServerPath: "/ws",
+                SipUsername: extensionNo,
+                SipPassword: "ab0000",
+                TransportConnectionTimeout:"15",                   // The timeout in seconds for the initial connection to make on the web socket port
+                TransportReconnectionAttempts:"999",               // The number of times to attempt to reconnect to a WebSocket when the connection drops.
+                TransportReconnectionTimeout: "3",                  // The time in seconds to wait between WebSocket reconnection attempts.
+                FrameRate: '15',
+                AspectRatio: '1.33',
+                VideoOrientation: 'rotateY(180deg)',
+                AutoGainControl: "1",
+                EchoCancellation: "1",
+                NoiseSuppression: "1",
+                DisableBuddies:true,
+                VoiceMailSubscribe:false,
+                Notifications:"0",
+                AutoAnswerPolicy : "disabled",                          // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                DoNotDisturbPolicy : "disabled",                        // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                CallWaitingPolicy : "disabled",                         // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                CallRecordingPolicy : "disabled",                       // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                IntercomPolicy : "disabled",                            // disabled = feature is disabled | enabled = feature is always on
+                EnableVideoCalling:"0",
+                EnableTextDictate:"0",
+                EnableTextMessaging:"0",
+                DisableFreeDial:"0",
+                EnableTransfer:"0",
+                EnableAccountSettings:"0",
+                EnableAppearanceSettings:"0",
+                MaxBuddies:"0"
             }
 
             var web_hook_on_register = function(ua){
