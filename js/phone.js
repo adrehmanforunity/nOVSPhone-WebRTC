@@ -12705,6 +12705,7 @@ function ShowMyProfile(){
                         }
                     }
                     if(EnableVideoCalling == true){
+                        console.log("EnableVideoCalling:"+ EnableVideoCalling);
                         // Add "Default" option
                         if(selectVideoScr.children('option').length > 0){
                             var option = $('<option/>');
