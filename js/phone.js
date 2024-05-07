@@ -2216,11 +2216,17 @@ function onRegistered(){
         }
 
         // Custom Web hook
-        if(typeof web_hook_on_register !== 'undefined') web_hook_on_register(userAgent);
+        if(typeof web_hook_on_register !== 'undefined') {
+            console.log("Sending web_hook_on_register!");
+            web_hook_on_register(userAgent);
+            console.log("Sent web_hook_on_register!");
+        } else 
+        {
+            console.log("WH not avaiable web_hook_on_register!");
+        }
     }
     else {
         userAgent.registering = false;
-
         console.log("ReRegistered!");
     }
     userAgent.isReRegister = true;
