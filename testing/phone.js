@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     var statusElement = document.getElementById('status');
     var callStatusElement = document.getElementById('callStatus');
     var audioInputSelect = document.getElementById('audioInputSelect');
@@ -12,7 +12,46 @@ document.addEventListener('DOMContentLoaded', function () {
     var inviter;
     var registered = false;
 
-    // ... rest of your existing code ...
+    function getPermissionAndUpdateDevices() {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then(function(stream) {
+                updateDeviceSelection();
+                stream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+            })
+            .catch(function(error) {
+                console.error('Error accessing media devices.', error);
+            });
+    }
+
+    function updateDeviceSelection() {
+        navigator.mediaDevices.enumerateDevices()
+            .then(function(devices) {
+                audioInputSelect.innerHTML = '';
+                audioOutputSelect.innerHTML = '';
+                devices.forEach(function(device) {
+                    var option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || 'Device ' + (device.deviceId.substr(0, 6)) + '...';
+                    if (device.kind === 'audioinput') {
+                        audioInputSelect.appendChild(option);
+                    } else if (device.kind === 'audiooutput') {
+                        audioOutputSelect.appendChild(option);
+                    }
+                });
+            });
+    }
+
+    document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
+
+    document.getElementById('registerButton').addEventListener('click', function () {
+        // ... registration code ...
+    });
+
+    document.getElementById('unregisterButton').addEventListener('click', function () {
+        // ... unregistration code ...
+    });
 
     document.getElementById('callButton').addEventListener('click', function () {
         if (userAgent && registered) {
