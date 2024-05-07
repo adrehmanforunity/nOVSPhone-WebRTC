@@ -3,117 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIP Web Application</title>
-   <script type="text/javascript" src="https://dtd6jl0d42sve.cloudfront.net/lib/SipJS/sip-0.20.0.min.js" defer="true"></script>
+    <title>WebRTC Call Application with Device Selection</title>
+    <script type="text/javascript" src="https://dtd6jl0d42sve.cloudfront.net/lib/SipJS/sip-0.20.0.min.js" defer="true"></script>
 </head>
 <body>
-    <h1>SIP Web Application</h1>
-    <button onclick="startSip()">Start SIP</button>
-    <button onclick="endSip()">End SIP</button>
-    <button onclick="testCall()">Test Call</button>
+    <button id="permissionButton">Grant Permission</button>
+
+    <label for="audioInputSelect">Audio Input Device:</label>
+    <select id="audioInputSelect"></select>
+
+    <label for="audioOutputSelect">Audio Output Device:</label>
+    <select id="audioOutputSelect"></select>
+
+    <audio id="localAudio" autoplay></audio>
+    <audio id="remoteAudio" autoplay></audio>
+
+    <button id="callButton">Call *43</button>
 
     <script>
-        var session;
+        document.addEventListener('DOMContentLoaded', function () {
+            var audioInputSelect = document.getElementById('audioInputSelect');
+            var audioOutputSelect = document.getElementById('audioOutputSelect');
 
-        function startSip() {
-            if (typeof SIP !== 'undefined' && typeof SIP.UA === 'function') {
-                var audioInputDevice = null; // Specify the audio input device ID here if needed
-                var audioOutputDevice = null; // Specify the audio output device ID here if needed
-
-                var config = {
-                    wssServer: "webrtc.kozow.com",
-                    WssInTransport: 1,
-                    WebSocketPort: 4443,
-                    ServerPath: "/ws",
-                    SipUsername: "2001",
-                    SipPassword: "ab0000",
-                    stunServers: "stun:stun.l.google.com:19302", // Correct format for Google STUN server
-                    media: {
-                        constraints: {
-                            audio: {
-                                deviceId: { exact: audioInputDevice }, // Specify the input device ID if needed
-                                echoCancellation: true, // Enable echo cancellation
-                                noiseSuppression: true, // Enable noise suppression
-                                autoGainControl: true // Enable automatic gain control
-                            },
-                            video: false
-                        },
-                        render: {
-                            remote: document.getElementById('remoteAudio'), // Specify the HTML element to render remote audio
-                            local: document.getElementById('localAudio') // Specify the HTML element to render local audio
-                        }
-                    }
-                };
-
-                var userAgent = new SIP.UA(config);
-
-                userAgent.on('invite', function (incomingSession) {
-                    console.log('Incoming call from: ' + incomingSession.remoteIdentity.displayName);
-                    session = incomingSession;
-                    session.accept({
-                        media: {
-                            constraints: {
-                                audio: true,
-                                video: false
-                            }
-                        }
+            // Function to request permission and populate the device selection dropdowns
+            function getPermissionAndUpdateDevices() {
+                navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+                    .then(function(stream) {
+                        // Now that we have permission, update the device selections
+                        updateDeviceSelection();
+                        // Stop all tracks to ensure no audio is playing after permission is granted
+                        stream.getTracks().forEach(function(track) {
+                            track.stop();
+                        });
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing media devices.', error);
                     });
-                });
-
-                userAgent.start();
-
-                console.log('SIP started');
-            } else {
-                console.error('SIP.js library is not loaded or not available');
-            }
-        }
-
-        function endSip() {
-            if (session) {
-                session.terminate();
-                console.log('SIP ended');
-            }
-        }
-
-        function testCall() {
-            if (session) {
-                console.log('Already in a call, cannot make a test call');
-                return;
             }
 
-            if (typeof SIP !== 'undefined' && typeof SIP.UA === 'function') {
-                var testConfig = {
-                    uri: '*43@webrtc.kozow.com', // Test number to call
-                    media: {
-                        constraints: {
-                            audio: true,
-                            video: false
-                        }
-                    }
-                };
-
-                var userAgent = new SIP.UA(testConfig);
-
-                userAgent.on('invite', function (incomingSession) {
-                    console.log('Incoming test call from: ' + incomingSession.remoteIdentity.displayName);
-                    session = incomingSession;
-                    session.accept({
-                        media: {
-                            constraints: {
-                                audio: true,
-                                video: false
+            // Function to populate the device selection dropdowns
+            function updateDeviceSelection() {
+                navigator.mediaDevices.enumerateDevices()
+                    .then(function(devices) {
+                        audioInputSelect.innerHTML = '';
+                        audioOutputSelect.innerHTML = '';
+                        devices.forEach(function(device) {
+                            var option = document.createElement('option');
+                            option.value = device.deviceId;
+                            option.text = device.label || 'Device ' + (device.deviceId.substr(0, 6)) + '...';
+                            if (device.kind === 'audioinput') {
+                                audioInputSelect.appendChild(option);
+                            } else if (device.kind === 'audiooutput') {
+                                audioOutputSelect.appendChild(option);
                             }
-                        }
+                        });
                     });
-                });
-
-                userAgent.start();
-
-                console.log('Test call started');
-            } else {
-                console.error('SIP.js library is not loaded or not available');
             }
-        }
+
+            document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
+
+            // Rest of your existing code...
+        });
     </script>
 </body>
 </html>
