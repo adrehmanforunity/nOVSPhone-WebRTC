@@ -62,6 +62,9 @@
             profileName: extenstionNo,
             wssServer: "webrtc.kozow.com",
             WssInTransport:1,
+            TransportConnectionTimeout:"15",                   // The timeout in seconds for the initial connection to make on the web socket port
+            TransportReconnectionAttempts:"999",               // The number of times to attempt to reconnect to a WebSocket when the connection drops.
+            TransportReconnectionTimeout: "3",                  // The time in seconds to wait between WebSocket reconnection attempts.
             WebSocketPort: 4443,
             ServerPath: "/ws",
             SipUsername: extenstionNo,
