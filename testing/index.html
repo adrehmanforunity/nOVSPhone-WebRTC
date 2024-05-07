@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP Web Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sip.js/0.20.0/sip-0.20.0.min.js"></script>
+</head>
+<body>
+    <h1>SIP Web Application</h1>
+    <button onclick="startSip()">Start SIP</button>
+    <button onclick="endSip()">End SIP</button>
+
+    <script>
+        var session;
+
+        function startSip() {
+            var audioInputDevice = null; // Specify the audio input device ID here if needed
+            var audioOutputDevice = null; // Specify the audio output device ID here if needed
+
+            var config = {
+                wssServer: "webrtc.kozow.com",
+                WssInTransport: 1,
+                WebSocketPort: 4443,
+                ServerPath: "/ws",
+                SipUsername: "2001",
+                SipPassword: "ab0000",
+                stunServers: "stun:stun.l.google.com:19302", // Correct format for Google STUN server
+                media: {
+                    constraints: {
+                        audio: {
+                            deviceId: { exact: audioInputDevice }, // Specify the input device ID if needed
+                            echoCancellation: true, // Enable echo cancellation
+                            noiseSuppression: true, // Enable noise suppression
+                            autoGainControl: true // Enable automatic gain control
+                        },
+                        video: false
+                    },
+                    render: {
+                        remote: document.getElementById('remoteAudio'), // Specify the HTML element to render remote audio
+                        local: document.getElementById('localAudio') // Specify the HTML element to render local audio
+                    }
+                }
+            };
+
+            var userAgent = new SIP.UA(config);
+
+            userAgent.on('invite', function (incomingSession) {
+                console.log('Incoming call from: ' + incomingSession.remoteIdentity.displayName);
+                session = incomingSession;
+                session.accept({
+                    media: {
+                        constraints: {
+                            audio: true,
+                            video: false
+                        }
+                    }
+                });
+            });
+
+            userAgent.start();
+
+            console.log('SIP started');
+        }
+
+        function endSip() {
+            if (session) {
+                session.terminate();
+                console.log('SIP ended');
+            }
+        }
+    </script>
+</body>
+</html>

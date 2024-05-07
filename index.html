@@ -44,64 +44,64 @@
 
         <!-- Provisioning -->
         <script type="text/javascript">
-	    var extenstionNo;
-	    extenstionNo=GetURLParameter("extenstion");
-        if (typeof extenstionNo == 'undefined'){
-		    extenstionNo='1089';	     
-        };
-	    console.log('extenstionNo Now:' + extenstionNo);
-        
-        // Generate a random number
-        var randomUserID = Math.floor(Math.random() * 1000000);
-        // Set the random number as the value for the profileUserID key in localStorage
-        window.localStorage.setItem("profileUserID", randomUserID);
-	    console.log('profileUserID random:' + randomUserID);
+            var extensionNo;
+            extensionNo=GetURLParameter("extension");
+            if (typeof extensionNo == 'undefined'){
+                extensionNo='1089';	     
+            };
+            console.log('extenstionNo Now:' + extensionNo);
+            
+            // Generate a random number
+            var randomUserID = Math.floor(Math.random() * 1000000);
+            // Set the random number as the value for the profileUserID key in localStorage
+            window.localStorage.setItem("profileUserID", randomUserID);
+            console.log('profileUserID random:' + randomUserID);
 
-        // Provision runtime options can go here.
-        var phoneOptions = {
-            loadAlternateLang: false,
-            AudioOutputId: 'default',
-            AudioSrcId: 'default',
-            VideoSrcId: 'default',
-    		VideoHeight: '240',
-            welcomeScreen: null,
-            profileUser: extenstionNo,
-            profileName: extenstionNo,
-            wssServer: "webrtc.kozow.com",
-            WssInTransport:1,
-            TransportConnectionTimeout:"15",                   // The timeout in seconds for the initial connection to make on the web socket port
-            TransportReconnectionAttempts:"999",               // The number of times to attempt to reconnect to a WebSocket when the connection drops.
-            TransportReconnectionTimeout: "3",                  // The time in seconds to wait between WebSocket reconnection attempts.
-            WebSocketPort: 4443,
-            ServerPath: "/ws",
-            SipUsername: extenstionNo,
-            SipPassword: "ab0000",
-    		FrameRate: '15',
-            AspectRatio: '1.33',
-            VideoOrientation: 'rotateY(180deg)',
-            AutoGainControl: "1",
-            EchoCancellation: "1",
-            NoiseSuppression: "1",
-            RingOutputId:'default',
-            DisableBuddies:true,
-            VoiceMailSubscribe:false,
-            Notifications:"0",
-            AutoAnswerPolicy : "disabled",                          // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
-            DoNotDisturbPolicy : "disabled",                        // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
-            CallWaitingPolicy : "disabled",                         // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
-            CallRecordingPolicy : "disabled",                       // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
-            IntercomPolicy : "disabled",                            // disabled = feature is disabled | enabled = feature is always on
-            EnableVideoCalling:"0",
-            EnableTextDictate:"0",
-            EnableTextMessaging:"0",
-            DisableFreeDial:"0",
-            EnableTransfer:"0",
-            EnableAccountSettings:"0",
-            EnableAppearanceSettings:"0",
-            MaxBuddies:"0"
-        }
-       //IceStunServerJson;
-        //IceStunCheckTimeout ;
+            // Provision runtime options can go here.
+            var phoneOptions = {
+                loadAlternateLang: false,
+                RingOutputId:'default',
+                AudioOutputId: 'default',
+                AudioSrcId: 'default',
+                VideoSrcId: 'default',
+                VideoHeight: '240',
+                welcomeScreen: null,
+                profileUser: extensionNo,
+                profileName: extensionNo,
+                wssServer: "webrtc.kozow.com",
+                WssInTransport:1,
+                WebSocketPort: 4443,
+                ServerPath: "/ws",
+                SipUsername: extensionNo,
+                SipPassword: "ab0000",
+                TransportConnectionTimeout:"15",                   // The timeout in seconds for the initial connection to make on the web socket port
+                TransportReconnectionAttempts:"999",               // The number of times to attempt to reconnect to a WebSocket when the connection drops.
+                TransportReconnectionTimeout: "3",                  // The time in seconds to wait between WebSocket reconnection attempts.
+                FrameRate: '15',
+                AspectRatio: '1.33',
+                VideoOrientation: 'rotateY(180deg)',
+                AutoGainControl: "1",
+                EchoCancellation: "1",
+                NoiseSuppression: "1",
+                DisableBuddies:true,
+                VoiceMailSubscribe:false,
+                Notifications:"0",
+                AutoAnswerPolicy : "disabled",                          // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                DoNotDisturbPolicy : "disabled",                        // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                CallWaitingPolicy : "disabled",                         // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                CallRecordingPolicy : "disabled",                       // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
+                IntercomPolicy : "disabled",                            // disabled = feature is disabled | enabled = feature is always on
+                EnableVideoCalling:"0",
+                EnableTextDictate:"0",
+                EnableTextMessaging:"0",
+                DisableFreeDial:"0",
+                EnableTransfer:"0",
+                EnableAccountSettings:"0",
+                EnableAppearanceSettings:"0",
+                MaxBuddies:"0"
+            }
+            //IceStunServerJson;
+            //IceStunCheckTimeout ;
 
             // Occurs after the language file is loaded
             document.addEventListener("language_pack_loaded", function(lang){
