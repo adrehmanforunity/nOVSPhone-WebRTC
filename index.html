@@ -32,7 +32,7 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
         <meta http-equiv="Expires" content="0"/>
 
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
 
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="https://dtd6jl0d42sve.cloudfront.net/lib/Normalize/normalize-v8.0.1.css"/>
@@ -87,9 +87,16 @@
             DoNotDisturbPolicy : "disabled",                        // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
             CallWaitingPolicy : "disabled",                         // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
             CallRecordingPolicy : "disabled",                       // allow = user can choose | disabled = feature is disabled | enabled = feature is always on
-            IntercomPolicy : "disabled",                             // disabled = feature is disabled | enabled = feature is always on
+            IntercomPolicy : "disabled",                            // disabled = feature is disabled | enabled = feature is always on
             EnableVideoCalling:"0",
-            EnableTextDictate:"0"
+            EnableTextDictate:"0",
+            EnableTextMessaging:"0",
+            DisableFreeDial:"1",
+            EnableTransfer:"0",
+            EnableAccountSettings:"0",
+            EnableAppearanceSettings:"0",
+            MaxBuddies:"0"
+
         }
        //IceStunServerJson;
         //IceStunCheckTimeout ;
@@ -191,8 +198,7 @@
             var web_hook_sort_and_filter = function(event){
                 // console.log("web_hook_sort_and_filter", event);
             }
-	    function GetURLParameter(sParam)
-	    {
+	        function GetURLParameter(sParam){
 				console.log('GetURLParameter :' + 'Entering');
 				var sPageURL = window.location.search.substring(1);
 				var sURLVariables = sPageURL.split('&');
@@ -206,8 +212,7 @@
 					}
 				}
 				console.log('GetURLParameter :' + 'Existing');
-	   };
-
+	        };
         </script>
     </head>
 

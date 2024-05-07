@@ -27,7 +27,7 @@ const availableLang = ["fr", "ja", "zh-hans", "zh", "ru", "tr", "nl", "es", "de"
  * Image Assets
  * Note: You can specify the assets to use below in array format
  */
-let imagesDirectory = getDbItem("imagesDirectory", "");     // Directory For Image Assets eg: images/ 
+let imagesDirectory = getDbItem("imagesDirectory", "");                    // Directory For Image Assets eg: images/ 
 let defaultAvatars = getDbItem("defaultAvatars", "avatars/default.0.webp,avatars/default.1.webp,avatars/default.2.webp,avatars/default.3.webp,avatars/default.4.webp,avatars/default.5.webp,avatars/default.6.webp,avatars/default.7.webp,avatars/default.8.webp"); 
 let wallpaperLight = getDbItem("wallpaperLight", "wallpaper.light.webp");  // Wallpaper for Light Theme
 let wallpaperDark = getDbItem("wallpaperDark", "wallpaper.dark.webp");     // Wallpaper for Dark Theme
