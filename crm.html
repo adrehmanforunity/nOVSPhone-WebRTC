@@ -8,9 +8,16 @@
   body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
   header { background-color: #333; color: white; text-align: center; padding: 10px; }
   footer { background-color: #333; color: white; text-align: center; padding: 10px; position: relative; }
-  .iframe-container { position: fixed; bottom: 10px; right: 10px; width: 300px; height: 200px; }
+  .iframe-container { position: fixed; bottom: 10px; right: 100px; width: 900px; height: 200px; display: none; }
   .iframe-container iframe { width: 100%; height: 100%; border: none; }
 </style>
+<script>
+function loadIframe() {
+  var iframe = document.getElementById('contact-iframe');
+  iframe.src = "index.html?extension=3002&number=3001"; // Set the source for the iframe
+  iframe.style.display = 'block'; // Display the iframe
+}
+</script>
 </head>
 <body>
 
@@ -22,11 +29,11 @@
 
 <footer>
   <p>Simple Page © 2024</p>
-  <a href="javascript:void(0);" onclick="document.getElementById('contact-iframe').style.display = 'block'">Contact Us</a>
+  <a href="javascript:void(0);" onclick="loadIframe()">Contact Us</a>
 </footer>
 
-<div class="iframe-container" id="contact-iframe" style="display: none;">
-  <iframe src="index.html?extension=3002&number=3001"></iframe>
+<div class="iframe-container">
+  <iframe id="contact-iframe"></iframe>
 </div>
 
 </body>
