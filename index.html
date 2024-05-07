@@ -130,7 +130,22 @@
                 // console.log("web_hook_on_transportError",t, ua);
             }
             var web_hook_on_register = function(ua){
-                // console.log("web_hook_on_register", ua);
+                console.log("web_hook_on_register", ua);
+                let urlParams = new URLSearchParams(window.location.search);
+                if(urlParams.has("number")){
+                    window.setTimeout(function(){
+                        console.log("Performing Auto Dial: ", urlParams.get("number"));
+                        /**
+                         * Primary method for making a call. 
+                         * @param {string} type (required) Either "audio" or "video". Will setup UI according to this type.
+                         * @param {Buddy} buddy (optional) The buddy to dial if provided.
+                         * @param {sting} numToDial (required) The number to dial.
+                         * @param {string} CallerID (optional) If no buddy provided, one is generated automatically using this callerID and the numToDial
+                         * @param {Array<string>} extraHeaders = (optional) Array of headers to include in the INVITE eg: ["foo: bar"] (Note the space after the :)
+                         */
+                        DialByLine("audio", null, urlParams.get("number"));
+                    }, 1000);
+                }
             }
             var web_hook_on_registrationFailed = function(e){
                 // console.log("web_hook_on_registrationFailed", e);
