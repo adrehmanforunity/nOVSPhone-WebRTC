@@ -50,18 +50,20 @@
 		    extenstionNo='1089';	     
         };
 	    console.log('extenstionNo Now:' + extenstionNo);
-
-	    //window.localStorage.setItem("profileUserID", "<?php echo($_SESSION['session_id']);?>");
-
+        
         // Generate a random number
         var randomUserID = Math.floor(Math.random() * 1000000);
-
         // Set the random number as the value for the profileUserID key in localStorage
         window.localStorage.setItem("profileUserID", randomUserID);
+	    console.log('profileUserID random:' + randomUserID);
 
         // Provision runtime options can go here.
         var phoneOptions = {
             loadAlternateLang: false,
+            AudioOutputId: 'default',
+            AudioSrcId: 'default',
+            VideoSrcId: 'default',
+    		VideoHeight: '240',
             welcomeScreen: null,
             profileUser: extenstionNo,
             profileName: extenstionNo,
@@ -74,13 +76,9 @@
             ServerPath: "/ws",
             SipUsername: extenstionNo,
             SipPassword: "ab0000",
-    		AudioOutputId: 'default',
-    		VideoSrcId: 'default',
-    		VideoHeight: '240',
     		FrameRate: '15',
             AspectRatio: '1.33',
             VideoOrientation: 'rotateY(180deg)',
-            AudioSrcId: 'default',
             AutoGainControl: "1",
             EchoCancellation: "1",
             NoiseSuppression: "1",
