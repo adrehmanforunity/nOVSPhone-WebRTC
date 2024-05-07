@@ -62,15 +62,17 @@
                         });
                     });
             }
-
+            
             document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
+
+            // ... rest of your existing code ...
 
             document.getElementById('registerButton').addEventListener('click', function () {
                 if (!userAgent) {
                     var userAgentOptions = {
                         uri: SIP.UserAgent.makeURI("sip:" + SipUsername + "@" + SipDomain),
                         transportOptions: {
-                            server: 'wss://' + SipDomain + ':4443/ws',
+                            server: 'wss://' + SipDomain + '/ws',
                             traceSip: true
                         },
                         authorizationUsername: SipUsername,
@@ -94,18 +96,19 @@
                         console.error('Error starting user agent:', error);
                     });
 
-                    userAgent.on('registered', function () {
-                        registered = true;
-                        console.log('Registration successful!');
-                    });
-
-                    userAgent.on('unregistered', function () {
-                        registered = false;
-                        console.log('Unregistration successful!');
-                    });
-
-                    userAgent.on('registrationFailed', function (error) {
-                        console.error('Registration failed:', error);
+                    // Use stateChange instead of on
+                    userAgent.stateChange.addListener((newState) => {
+                        switch (newState) {
+                            case SIP.UserAgentState.Registered:
+                                registered = true;
+                                console.log('Registration successful!');
+                                break;
+                            case SIP.UserAgentState.Unregistered:
+                            case SIP.UserAgentState.Stopped:
+                                registered = false;
+                                console.log('Unregistration successful!');
+                                break;
+                        }
                     });
                 }
 
@@ -113,6 +116,8 @@
                     userAgent.register();
                 }
             });
+
+            // ... rest of your existing code ...
 
             document.getElementById('unregisterButton').addEventListener('click', function () {
                 if (userAgent && registered) {
