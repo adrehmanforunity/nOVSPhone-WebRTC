@@ -12696,6 +12696,7 @@ function ShowMyProfile(){
                             selectRingDevice.append(ringOption);
                         }
                         else if (deviceInfo.kind === "videoinput") {
+                            console.log("EnableVideoCalling:"+ EnableVideoCalling);
                             if(EnableVideoCalling == true){
                                 if(getVideoSrcID() == devideId) option.prop("selected", true);
                                 option.text((DisplayName != "")? DisplayName : "Webcam");
