@@ -111,16 +111,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             };
 
+            // Assuming userAgent is already defined and started elsewhere in your code
             userAgent.start().then(() => {
                 const target = SIP.UserAgent.makeURI("sip:*43@example.com"); // Replace example.com with your domain
                 if (!target) {
                     throw new Error("Failed to create target URI.");
                 }
-                const inviter = new SIP.Inviter(userAgent, target);
+                const inviterOptions = {
+                    sessionDescriptionHandlerOptions: {
+                        constraints: {
+                            audio: {
+                                deviceId: audioInputSelect.value ? { exact: audioInputSelect.value } : undefined // Make sure to obtain the selected audio input device ID
+                            },
+                            video: false // Assuming video is not needed
+                        }
+                    },
+                    inviteWithoutSdp: true,
+                    iceServers: [
+                        { urls: 'stun:stun.l.google.com:19302' }
+                    ]
+                };
+                const inviter = new SIP.Inviter(userAgent, target, inviterOptions);
                 inviter.invite();
             }).catch(error => {
                 console.error('Error starting user agent:', error);
             });
+
         } else {
             console.error('User agent is not registered.');
         }
