@@ -46,6 +46,7 @@
             window.localStorage.setItem("profileUserID", randomUserID);
             console.log('profileUserID random:' + randomUserID);
 
+
             // Provision runtime options can go here.
             var phoneOptions = {
                 loadAlternateLang: false,
@@ -82,12 +83,13 @@
                 IntercomPolicy : "disabled",                            // disabled = feature is disabled | enabled = feature is always on
                 EnableVideoCalling:"0",
                 EnableTextDictate:"0",
-                EnableTextMessaging:"0",
-                DisableFreeDial:"0",
+                EnableTextMessaging:false,
+                DisableFreeDial:true,
                 EnableTransfer:"0",
                 EnableAccountSettings:"0",
                 EnableAppearanceSettings:"0",
-                MaxBuddies:"0"
+                MaxBuddies:"0",
+                ChatEngine: "SIMPLE"
             }
 
             var web_hook_on_register = function(ua){
