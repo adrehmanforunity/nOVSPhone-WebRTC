@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebRTC Call Application with Device Selection</title>
+    <title>WebRTC Call Application with Device Selection and Registration</title>
     <script type="text/javascript" src="https://dtd6jl0d42sve.cloudfront.net/lib/SipJS/sip-0.20.0.min.js" defer="true"></script>
 </head>
 <body>
@@ -18,12 +18,16 @@
     <audio id="localAudio" autoplay></audio>
     <audio id="remoteAudio" autoplay></audio>
 
+    <button id="registerButton">Register</button>
+    <button id="unregisterButton">Unregister</button>
     <button id="callButton">Call *43</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var audioInputSelect = document.getElementById('audioInputSelect');
             var audioOutputSelect = document.getElementById('audioOutputSelect');
+            var userAgent;
+            var registered = false;
 
             // Function to request permission and populate the device selection dropdowns
             function getPermissionAndUpdateDevices() {
@@ -62,7 +66,64 @@
 
             document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
 
-            // Rest of your existing code...
+            document.getElementById('registerButton').addEventListener('click', function () {
+                if (!userAgent) {
+                    userAgent = new SIP.UA({
+                        uri: 'sip:2001@webrtc.kozow.com',
+                        transportOptions: {
+                            wsServers: ['wss://webrtc.kozow.com/ws'],
+                            traceSip: true
+                        },
+                        authorizationUser: '2001',
+                        password: 'ab0000',
+                        stunServers: ['stun:stun.l.google.com:19302']
+                    });
+
+                    userAgent.on('registered', function () {
+                        registered = true;
+                        console.log('Registration successful!');
+                    });
+
+                    userAgent.on('unregistered', function () {
+                        registered = false;
+                        console.log('Unregistration successful!');
+                    });
+
+                    userAgent.on('registrationFailed', function (error) {
+                        console.error('Registration failed:', error);
+                    });
+                }
+
+                if (!registered) {
+                    userAgent.register();
+                }
+            });
+
+            document.getElementById('unregisterButton').addEventListener('click', function () {
+                if (userAgent && registered) {
+                    userAgent.unregister();
+                }
+            });
+
+            document.getElementById('callButton').addEventListener('click', function () {
+                if (userAgent && registered) {
+                    // Update the config with the selected devices before making the call
+                    var options = {
+                        sessionDescriptionHandlerOptions: {
+                            constraints: {
+                                audio: {
+                                    deviceId: audioInputSelect.value ? { exact: audioInputSelect.value } : undefined
+                                },
+                                video: false
+                            }
+                        }
+                    };
+
+                    userAgent.invite('*43', options);
+                } else {
+                    console.error('User agent is not registered.');
+                }
+            });
         });
     </script>
 </body>
