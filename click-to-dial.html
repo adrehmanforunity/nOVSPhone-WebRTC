@@ -24,29 +24,19 @@
 
         <!-- Provisioning -->
         <script type="text/javascript">
-            // Provision runtime options can go here.
-            //var phoneOptions = {
-            //    loadAlternateLang: true,
-            //    VoiceMailSubscribe: false,
-            //    EnableTextMessaging: false,
-            //    DisableFreeDial: true,
-            //    DisableBuddies: true,
-            //    ChatEngine: "SIMPLE",
-            //}
-            var extensionNo;
-            extensionNo=GetURLParameter("extension");
-            console.log('extension is received as:' + extensionNo);
-            if (typeof extensionNo == 'undefined'){
-                extensionNo='1089';	     
-            };
-            console.log('extensionNo Now:' + extensionNo);
-            
             // Generate a random number
             var randomUserID = Math.floor(Math.random() * 1000000);
             // Set the random number as the value for the profileUserID key in localStorage
             window.localStorage.setItem("profileUserID", randomUserID);
             console.log('profileUserID random:' + randomUserID);
 
+            var extensionNo;
+            extensionNo=GetURLParameter("extension");
+            console.log('extension is received as:' + extensionNo);
+            if (typeof extensionNo == 'undefined'){
+                alert("Sorry, unable to proceed. Extension not received.")	     
+            };
+            console.log('extensionNo Now:' + extensionNo);
 
             // Provision runtime options can go here.
             var phoneOptions = {
@@ -95,18 +85,10 @@
 
             var web_hook_on_register = function(ua){
                 let urlParams = new URLSearchParams(window.location.search);
-                if(urlParams.has("d")){
+                if(urlParams.has("number")){
                     window.setTimeout(function(){
-                        console.log("Performing Auto Dial: ", urlParams.get("d"));
-                        /**
-                         * Primary method for making a call. 
-                         * @param {string} type (required) Either "audio" or "video". Will setup UI according to this type.
-                         * @param {Buddy} buddy (optional) The buddy to dial if provided.
-                         * @param {sting} numToDial (required) The number to dial.
-                         * @param {string} CallerID (optional) If no buddy provided, one is generated automatically using this callerID and the numToDial
-                         * @param {Array<string>} extraHeaders = (optional) Array of headers to include in the INVITE eg: ["foo: bar"] (Note the space after the :)
-                         */
-                        DialByLine("audio", null, urlParams.get("d"));
+                        console.log("Performing Auto Dial: ", urlParams.get("number"));                        
+                        DialByLine("audio", null, urlParams.get("number"));
                     }, 1000);
                 }
             }
