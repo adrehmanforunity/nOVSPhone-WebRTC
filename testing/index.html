@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebRTC Call Application with Device Selection and Registration Status</title>
+    <title>WebRTC Call Application</title>
     <script type="text/javascript" src="https://dtd6jl0d42sve.cloudfront.net/lib/SipJS/sip-0.20.0.min.js"></script>
     <script type="text/javascript" src="phone.js" defer></script>
 </head>
 <body>
     <div id="status">Status: Not Registered</div>
+    <div id="callStatus">Call Status: Idle</div>
     <button id="permissionButton">Grant Permission</button>
 
     <label for="audioInputSelect">Audio Input Device:</label>
@@ -17,11 +18,11 @@
     <label for="audioOutputSelect">Audio Output Device:</label>
     <select id="audioOutputSelect"></select>
 
-    <audio id="localAudio" autoplay></audio>
     <audio id="remoteAudio" autoplay></audio>
 
     <button id="registerButton">Register</button>
     <button id="unregisterButton">Unregister</button>
     <button id="callButton">Call *43</button>
+    <button id="hangupButton" style="display:none;">Hang Up</button>
 </body>
 </html>
