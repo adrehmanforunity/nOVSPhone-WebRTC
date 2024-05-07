@@ -111,7 +111,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             };
 
-            userAgent.invite('*43', options);
+            userAgent.start().then(() => {
+                const target = SIP.UserAgent.makeURI("sip:*43@example.com"); // Replace example.com with your domain
+                if (!target) {
+                    throw new Error("Failed to create target URI.");
+                }
+                const inviter = new SIP.Inviter(userAgent, target);
+                inviter.invite();
+            }).catch(error => {
+                console.error('Error starting user agent:', error);
+            });
         } else {
             console.error('User agent is not registered.');
         }
