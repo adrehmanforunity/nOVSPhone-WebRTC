@@ -30,40 +30,8 @@
             var audioInputSelect = document.getElementById('audioInputSelect');
             var audioOutputSelect = document.getElementById('audioOutputSelect');
             var userAgent;
+            var registerer;
             var registered = false;
-
-            function getPermissionAndUpdateDevices() {
-                navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-                    .then(function(stream) {
-                        updateDeviceSelection();
-                        stream.getTracks().forEach(function(track) {
-                            track.stop();
-                        });
-                    })
-                    .catch(function(error) {
-                        console.error('Error accessing media devices.', error);
-                    });
-            }
-
-            function updateDeviceSelection() {
-                navigator.mediaDevices.enumerateDevices()
-                    .then(function(devices) {
-                        audioInputSelect.innerHTML = '';
-                        audioOutputSelect.innerHTML = '';
-                        devices.forEach(function(device) {
-                            var option = document.createElement('option');
-                            option.value = device.deviceId;
-                            option.text = device.label || 'Device ' + (device.deviceId.substr(0, 6)) + '...';
-                            if (device.kind === 'audioinput') {
-                                audioInputSelect.appendChild(option);
-                            } else if (device.kind === 'audiooutput') {
-                                audioOutputSelect.appendChild(option);
-                            }
-                        });
-                    });
-            }
-            
-            document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
 
             // ... rest of your existing code ...
 
@@ -89,60 +57,26 @@
                     };
 
                     userAgent = new SIP.UserAgent(userAgentOptions);
+                    registerer = new SIP.Registerer(userAgent);
 
                     userAgent.start().then(() => {
                         console.log('User agent started');
+                        registerer.register();
                     }).catch(error => {
                         console.error('Error starting user agent:', error);
                     });
-
-                    // Use stateChange instead of on
-                    userAgent.stateChange.addListener((newState) => {
-                        switch (newState) {
-                            case SIP.UserAgentState.Registered:
-                                registered = true;
-                                console.log('Registration successful!');
-                                break;
-                            case SIP.UserAgentState.Unregistered:
-                            case SIP.UserAgentState.Stopped:
-                                registered = false;
-                                console.log('Unregistration successful!');
-                                break;
-                        }
-                    });
+                } else if (!registered) {
+                    registerer.register();
                 }
+            });
 
-                if (!registered) {
-                    userAgent.register();
+            document.getElementById('unregisterButton').addEventListener('click', function () {
+                if (registerer && registered) {
+                    registerer.unregister();
                 }
             });
 
             // ... rest of your existing code ...
-
-            document.getElementById('unregisterButton').addEventListener('click', function () {
-                if (userAgent && registered) {
-                    userAgent.unregister();
-                }
-            });
-
-            document.getElementById('callButton').addEventListener('click', function () {
-                if (userAgent && registered) {
-                    var options = {
-                        sessionDescriptionHandlerOptions: {
-                            constraints: {
-                                audio: {
-                                    deviceId: audioInputSelect.value ? { exact: audioInputSelect.value } : undefined
-                                },
-                                video: false
-                            }
-                        }
-                    };
-
-                    userAgent.invite('*43', options);
-                } else {
-                    console.error('User agent is not registered.');
-                }
-            });
         });
     </script>
 </body>
