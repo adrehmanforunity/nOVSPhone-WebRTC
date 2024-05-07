@@ -53,6 +53,12 @@
 
 	    //window.localStorage.setItem("profileUserID", "<?php echo($_SESSION['session_id']);?>");
 
+        // Generate a random number
+        var randomUserID = Math.floor(Math.random() * 1000000);
+
+        // Set the random number as the value for the profileUserID key in localStorage
+        window.localStorage.setItem("profileUserID", randomUserID);
+
         // Provision runtime options can go here.
         var phoneOptions = {
             loadAlternateLang: false,
