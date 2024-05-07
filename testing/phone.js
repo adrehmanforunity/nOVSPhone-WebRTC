@@ -1,4 +1,4 @@
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     var statusElement = document.getElementById('status');
     var callStatusElement = document.getElementById('callStatus');
     var audioInputSelect = document.getElementById('audioInputSelect');
@@ -46,11 +46,58 @@
     document.getElementById('permissionButton').addEventListener('click', getPermissionAndUpdateDevices);
 
     document.getElementById('registerButton').addEventListener('click', function () {
-        // ... registration code ...
+        if (!userAgent) {
+            var userAgentOptions = {
+                uri: SIP.UserAgent.makeURI("sip:" + SipUsername + "@" + SipDomain),
+                transportOptions: {
+                    server: 'wss://' + SipDomain + ':4443/ws',
+                    traceSip: true
+                },
+                authorizationUsername: SipUsername,
+                authorizationPassword: SipPassword,
+                sessionDescriptionHandlerFactoryOptions: {
+                    constraints: {
+                        audio: true,
+                        video: false
+                    }
+                },
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' }
+                ]
+            };
+
+            userAgent = new SIP.UserAgent(userAgentOptions);
+            registerer = new SIP.Registerer(userAgent);
+
+            userAgent.start().then(() => {
+                console.log('User agent started');
+                registerer.register();
+                statusElement.textContent = 'Status: Registering...';
+            }).catch(error => {
+                console.error('Error starting user agent:', error);
+                statusElement.textContent = 'Status: Error starting user agent';
+            });
+
+            registerer.stateChange.addListener((newState) => {
+                if (newState === SIP.RegistererState.Registered) {
+                    registered = true;
+                    statusElement.textContent = 'Status: Registered';
+                } else if (newState === SIP.RegistererState.Unregistered) {
+                    registered = false;
+                    statusElement.textContent = 'Status: Unregistered';
+                }
+            });
+        } else if (!registered) {
+            registerer.register();
+            statusElement.textContent = 'Status: Registering...';
+        }
     });
 
     document.getElementById('unregisterButton').addEventListener('click', function () {
-        // ... unregistration code ...
+        if (registerer && registered) {
+            registerer.unregister();
+            statusElement.textContent = 'Status: Unregistering...';
+        }
     });
 
     document.getElementById('callButton').addEventListener('click', function () {
@@ -94,5 +141,10 @@
         }
     });
 
-    // ... rest of your existing code ...
+    // Set the audio output device for the remote audio element
+    remoteAudio.setSinkId(audioOutputSelect.value).then(() => {
+        console.log('Sink ID set to the audio output device successfully.');
+    }).catch(error => {
+        console.error('Error setting Sink ID:', error);
+    });
 });
