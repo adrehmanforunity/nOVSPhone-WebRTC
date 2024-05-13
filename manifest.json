@@ -1,7 +1,7 @@
 {
-    "name": "OVS Phone",
-    "short_name": "OVS Phone",
-    "id": "com.ovswebrtc.browserphone",
+    "name": "Browser Phone",
+    "short_name": "Browser Phone",
+    "id": "com.innovateasterisk.browserphone",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#fff",
@@ -9,16 +9,16 @@
     "description": "Browser Phone is a fully featured browser based WebRTC SIP phone for Asterisk. Designed to work with Asterisk PBX.",
     "screenshots": [
         {
-            "src": "icons/screenshot1.png",
+            "src": "icons/screenshot1.webp",
             "type": "image/webp",
             "sizes": "2542x1860",
-            "label": "OVS Phone Server"
+            "label": "Innovate Asterisk"
         },
         {
-            "src": "icons/screenshot2.png",
+            "src": "icons/screenshot2.webp",
             "type": "image/webp",
             "sizes": "2542x1860",
-            "label": "OVS Phone Server"
+            "label": "Innovate Asterisk"
         }
     ],
     "icons": [
